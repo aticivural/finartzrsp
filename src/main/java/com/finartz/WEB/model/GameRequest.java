@@ -1,14 +1,22 @@
 package com.finartz.WEB.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
+import java.io.Serializable;
+
 /**
  * GameRequest
  */
+
+
 public class GameRequest {
 
     private String firstPlayerName;
     private String firstPlayerMove;
     private String secondPlayerName;
     private String secondPlayerMove;
+
+    public GameRequest() {}
 
     public String getFirstPlayerName() {
         return firstPlayerName;

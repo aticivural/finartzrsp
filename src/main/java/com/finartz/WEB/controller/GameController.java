@@ -1,4 +1,4 @@
-package com.finartz.WEB;
+package com.finartz.WEB.controller;
 
 import com.finartz.WEB.model.GameRequest;
 import com.finartz.WEB.model.GameResponse;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/game")
-public class Gamecontroller implements ApplicationContextAware {
+public class GameController implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
@@ -28,15 +28,16 @@ public class Gamecontroller implements ApplicationContextAware {
         boolean same = gameLogic.isSame(request.getFirstPlayerMove(), request.getSecondPlayerMove());
         if (same) {
             GameResponse gameResponse = new GameResponse();
-            gameResponse.setFirstPlayerWins(false); gameResponse.setSecondPlayerWins(false); gameResponse.setWinner("");
+            gameResponse.setFirstPlayerWins(false);
+            gameResponse.setSecondPlayerWins(false);
+            gameResponse.setWinner("");
             gameResponse.setMessage(request.getFirstPlayerName() + " and " + request.getSecondPlayerName() + " made same move.");
             return gameResponse;
         }
 
-
-        boolean firstPlayerWin = gameLogic.firstWins(request.getFirstPlayerMove(), request.getSecondPlayerMove());
-
         GameResponse gameResponse = new GameResponse();
+        boolean firstPlayerWin = gameLogic.isFirstWins(request.getFirstPlayerMove(), request.getSecondPlayerMove());
+
         if (firstPlayerWin) {
             gameResponse.setFirstPlayerWins(true);
             gameResponse.setSecondPlayerWins(false);
@@ -54,7 +55,7 @@ public class Gamecontroller implements ApplicationContextAware {
 
     private void prepareWinningMessage(GameRequest request, boolean firstPlayerWin, GameResponse gameResponse) {
         String winningMessage = " won the game";
-        gameResponse.setMessage(firstPlayerWin ? request.getFirstPlayerName() + winningMessage: request.getSecondPlayerName() + winningMessage);
+        gameResponse.setMessage(firstPlayerWin ? request.getFirstPlayerName() + winningMessage : request.getSecondPlayerName() + winningMessage);
     }
 
     @Override
