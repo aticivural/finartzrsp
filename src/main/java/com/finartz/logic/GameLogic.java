@@ -1,5 +1,6 @@
 package com.finartz.logic;
 
+import com.finartz.WEB.model.MapPopulator;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -11,12 +12,16 @@ import static com.finartz.WEB.model.MapPopulator.build;
  * GameLogic
  */
 @Service
-public class GameLogic {
+public class GameLogic{
 
-    private Map<String, Boolean> firstWins;
+    private static Map<String, Boolean> firstWins;
+    static {
 
-    public synchronized boolean isSame(String firstPlayerMove, String secondPlayerMove){
-        if (firstWins == null) {
+        firstWins = MapPopulator.build();
+    }
+
+    public synchronized boolean isSame(String firstPlayerMove, String secondPlayerMove) {
+        /*if (firstWins == null) {
             firstWins = new HashMap<>();
             firstWins.put("paper-scissors", false);
             firstWins.put("paper-rock", true);
@@ -24,33 +29,27 @@ public class GameLogic {
             firstWins.put("rock-paper", false);
             firstWins.put("scissors-paper", true);
             firstWins.put("scissors-rock", false);
-        }
+        }*/
 
+        //firstWins = MapPopulator.build();
 
+        return firstPlayerMove.equals(secondPlayerMove);
 
-        if  (  firstPlayerMove.equals(secondPlayerMove)   ) {
+        /*if (firstPlayerMove.equals(secondPlayerMove)) {
             return true;
-        }
+        }*/
 
-
-
-
-        return false;
+        //return false;
     }
 
-    public synchronized boolean firstWins(String firstPlayerMove, String secondPlayerMove){
+    public synchronized boolean isFirstWins(String firstPlayerMove, String secondPlayerMove) {
 
-
-
-        if (firstWins == null) {
+        /*if (firstWins == null) {
             firstWins = build();
-        }
+        }*/
 
-
-
-        return  firstWins.get(firstPlayerMove + "-" + secondPlayerMove) ;
-            }
-
+        return firstWins.get(firstPlayerMove + "-" + secondPlayerMove);
+    }
 
 
 }
