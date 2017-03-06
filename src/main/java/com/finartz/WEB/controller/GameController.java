@@ -3,6 +3,7 @@ package com.finartz.WEB.controller;
 import com.finartz.WEB.model.GameRequest;
 import com.finartz.WEB.model.GameResponse;
 import com.finartz.logic.GameLogic;
+import com.finartz.WEB.model.MoveRepository;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -24,8 +25,11 @@ public class GameController implements ApplicationContextAware {
     public GameResponse play(@RequestBody GameRequest request) {
 
         GameLogic gameLogic = applicationContext.getBean(GameLogic.class);
+        gameLogic.setGameRequest(request);
+        MoveRepository firstMoveClass = gameLogic.getFirstClass();
+        MoveRepository secondMoveClass = gameLogic.getSecondClass();
 
-        boolean same = gameLogic.isSame(request.getFirstPlayerMove(), request.getSecondPlayerMove());
+        boolean same = firstMoveClass.isSame(secondMoveClass);
         if (same) {
             GameResponse gameResponse = new GameResponse();
             gameResponse.setFirstPlayerWins(false);
@@ -36,9 +40,10 @@ public class GameController implements ApplicationContextAware {
         }
 
         GameResponse gameResponse = new GameResponse();
-        boolean firstPlayerWin = gameLogic.isFirstWins(request.getFirstPlayerMove(), request.getSecondPlayerMove());
 
-        if (firstPlayerWin) {
+        boolean firstPlayerWins = firstMoveClass.isFirstWins(secondMoveClass);
+
+        if (firstPlayerWins) {
             gameResponse.setFirstPlayerWins(true);
             gameResponse.setSecondPlayerWins(false);
         } else {
@@ -46,16 +51,16 @@ public class GameController implements ApplicationContextAware {
             gameResponse.setSecondPlayerWins(true);
         }
 
-        gameResponse.setWinner(firstPlayerWin ? request.getFirstPlayerName() : request.getSecondPlayerName());
+        gameResponse.setWinner(firstPlayerWins ? request.getFirstPlayerName() : request.getSecondPlayerName());
 
-        prepareWinningMessage(request, firstPlayerWin, gameResponse);
+        prepareWinningMessage(request, firstPlayerWins, gameResponse);
 
         return gameResponse;
     }
 
-    private void prepareWinningMessage(GameRequest request, boolean firstPlayerWin, GameResponse gameResponse) {
+    private void prepareWinningMessage(GameRequest request, boolean firstPlayerWins, GameResponse gameResponse) {
         String winningMessage = " won the game";
-        gameResponse.setMessage(firstPlayerWin ? request.getFirstPlayerName() + winningMessage : request.getSecondPlayerName() + winningMessage);
+        gameResponse.setMessage(firstPlayerWins ? request.getFirstPlayerName() + winningMessage : request.getSecondPlayerName() + winningMessage);
     }
 
     @Override

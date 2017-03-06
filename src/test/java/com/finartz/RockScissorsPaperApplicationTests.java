@@ -67,7 +67,7 @@ public class RockScissorsPaperApplicationTests {
     @Test
     public void paper_vs_rock() throws Exception {
         String request = "{\"firstPlayerName\":\"Arif\",\"firstPlayerMove\":\"paper\",\"secondPlayerName\":\"Utku\",\"secondPlayerMove\":\"rock\"}";
-        String expected = "{\"message\":\"Arif won the game\",\"winner\":\"Arif\",\"firstPlayerWins\":true,\"secondPlayerWins\":false}";
+        String expected = "{\"firstPlayerWins\":true,\"secondPlayerWins\":false,\"message\":\"Arif won the game\",\"winner\":\"Arif\"}";
 
         this.mockMvc.perform(post("/game/play").contentType(MediaType.APPLICATION_JSON).content(request))
                 .andExpect(status().isOk())

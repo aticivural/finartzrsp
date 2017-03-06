@@ -1,55 +1,58 @@
 package com.finartz.logic;
 
-import com.finartz.WEB.model.MapPopulator;
+import com.finartz.WEB.model.*;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.finartz.WEB.model.MapPopulator.build;
-
 /**
- * GameLogic
+ * Created by vural on 05-Mar-17.
  */
 @Service
-public class GameLogic{
+public class GameLogic {
 
-    private static Map<String, Boolean> firstWins;
-    static {
+    private MoveRepository firstClass;
+    private MoveRepository secondClass;
+    private GameRequest gameRequest;
 
-        firstWins = MapPopulator.build();
+    public MoveRepository getFirstClass() {
+        firstClass = createMove(gameRequest.getFirstPlayerMove());
+        return firstClass;
     }
 
-    public synchronized boolean isSame(String firstPlayerMove, String secondPlayerMove) {
-        /*if (firstWins == null) {
-            firstWins = new HashMap<>();
-            firstWins.put("paper-scissors", false);
-            firstWins.put("paper-rock", true);
-            firstWins.put("rock-scissors", true);
-            firstWins.put("rock-paper", false);
-            firstWins.put("scissors-paper", true);
-            firstWins.put("scissors-rock", false);
-        }*/
-
-        //firstWins = MapPopulator.build();
-
-        return firstPlayerMove.equals(secondPlayerMove);
-
-        /*if (firstPlayerMove.equals(secondPlayerMove)) {
-            return true;
-        }*/
-
-        //return false;
+    public void setFirstClass(MoveRepository firstClass) {
+        this.firstClass = firstClass;
     }
 
-    public synchronized boolean isFirstWins(String firstPlayerMove, String secondPlayerMove) {
-
-        /*if (firstWins == null) {
-            firstWins = build();
-        }*/
-
-        return firstWins.get(firstPlayerMove + "-" + secondPlayerMove);
+    public MoveRepository getSecondClass() {
+        secondClass = createMove(gameRequest.getSecondPlayerMove());
+        return secondClass;
     }
 
+    public void setSecondClass(MoveRepository secondClass) {
+        this.secondClass = secondClass;
+    }
 
+    public GameRequest getGameRequest() {
+        return gameRequest;
+    }
+
+    public void setGameRequest(GameRequest gameRequest) {
+        this.gameRequest = gameRequest;
+    }
+
+    private MoveRepository createMove (String moveName){
+
+        if (moveName.equals(MoveRepository.ROCK)){
+            return new Rock();
+        }
+
+        if (moveName.equals(MoveRepository.PAPER)){
+            return new Paper();
+        }
+
+        if (moveName.equals(MoveRepository.SCISSORS)){
+            return new Scissors();
+        }
+
+        return null;
+    }
 }

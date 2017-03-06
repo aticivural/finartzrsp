@@ -1,13 +1,15 @@
 package com.finartz.WEB.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
 /**
  * GameRequest
  */
-
 
 public class GameRequest {
 

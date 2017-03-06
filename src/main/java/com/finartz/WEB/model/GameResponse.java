@@ -5,8 +5,8 @@ package com.finartz.WEB.model;
  */
 public class GameResponse {
 
-    private boolean isFirstPlayerWins;
-    private boolean isSecondPlayerWins;
+    private boolean firstPlayerWins;
+    private boolean secondPlayerWins;
     private String message;
     private String winner;
 
@@ -21,19 +21,19 @@ public class GameResponse {
     }
 
     public boolean isFirstPlayerWins() {
-        return isFirstPlayerWins;
+        return firstPlayerWins;
     }
 
     public void setFirstPlayerWins(boolean firstPlayerWins) {
-        isFirstPlayerWins = firstPlayerWins;
+        this.firstPlayerWins = firstPlayerWins;
     }
 
     public boolean isSecondPlayerWins() {
-        return isSecondPlayerWins;
+        return secondPlayerWins;
     }
 
     public void setSecondPlayerWins(boolean secondPlayerWins) {
-        isSecondPlayerWins = secondPlayerWins;
+        this.secondPlayerWins = secondPlayerWins;
     }
 
     public String getMessage() {
